@@ -1,4 +1,5 @@
 const http = require("http");
+const fs = require("fs");
 
 const PORT = 3000;
 const server = http.createServer((req, res) => {
@@ -10,6 +11,19 @@ const server = http.createServer((req, res) => {
       "Content-Type": "text/html",
     });
     res.end("<h1>Halaman ini adalah Home page dengan tipe konten HTML</h1>");
+  }
+  // if respond using HTML page (2)
+  else if (req.url === "/products") {
+    fs.readFile("./public/index.html", (err, data) => {
+      if (err) {
+        res.writeHead(404);
+        res.write("Halaman tidak ditemukan");
+      } else {
+        res.write(data);
+      }
+
+      res.end();
+    });
   }
   // If respond using plain text
   else if (req.url === "/about") {
